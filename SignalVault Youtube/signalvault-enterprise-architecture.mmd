@@ -1,0 +1,61 @@
+flowchart LR
+    subgraph Edge[Secure edge]
+        User[Brand user or agency operator]
+        EdgeAccess[SSO, MFA, WAF and rate limits]
+    end
+
+    subgraph App[SignalVault application services]
+        API[API and workspace authorization]
+        Query[Retrieval and citation service]
+        Admin[Billing, source controls and audit portal]
+    end
+
+    subgraph Control[System of record]
+        PG[(Managed PostgreSQL\norganizations, brands, workspaces, roles\nsource registry, citation manifests, billing)]
+        Obj[(Encrypted object storage\noptional approved transcript evidence\nexports, never copied video files)]
+        Audit[(Immutable audit and security events)]
+    end
+
+    subgraph Jobs[Asynchronous ingestion]
+        Queue[Durable queue and dead-letter queue]
+        Worker[Idempotent ingestion workers]
+        Embed[Chunking and embedding workers]
+    end
+
+    subgraph Retrieval[Enterprise retrieval plane]
+        VDB[(Qdrant Cloud or Pinecone\nembeddings plus citation IDs\nworkspace-isolated vector namespace)]
+        Rerank[Hybrid search and reranker]
+        LLM[LLM answer generator\nsource-constrained]
+    end
+
+    User --> EdgeAccess --> API
+    API --> PG
+    API --> Admin
+    API --> Query
+    Query --> PG
+    Query --> VDB
+    Query --> Rerank --> LLM
+    LLM --> Query
+    Query --> User
+
+    API --> Queue
+    Queue --> Worker
+    Worker --> Obj
+    Worker --> PG
+    Worker --> Embed
+    Embed --> VDB
+    Embed --> PG
+    API --> Audit
+    Query --> Audit
+    Worker --> Audit
+
+    classDef edge fill:#fcf2e9,stroke:#d97745,color:#351d14
+    classDef app fill:#edf5ff,stroke:#4178b8,color:#14253a
+    classDef store fill:#edf9f2,stroke:#39845f,color:#143222
+    classDef jobs fill:#f6f0ff,stroke:#7a5fb8,color:#261742
+    classDef retrieve fill:#fff7df,stroke:#ad822e,color:#38270d
+    class User,EdgeAccess edge
+    class API,Query,Admin app
+    class PG,Obj,Audit store
+    class Queue,Worker,Embed jobs
+    class VDB,Rerank,LLM retrieve

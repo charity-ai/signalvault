@@ -1,0 +1,83 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.9rem;
+  --background: #0a0d18;
+  --foreground: #f7f2e9;
+  --card: #111522;
+  --card-foreground: #f7f2e9;
+  --popover: #151a2a;
+  --popover-foreground: #f7f2e9;
+  --primary: #f3a16d;
+  --primary-foreground: #2b1a23;
+  --secondary: #1a2030;
+  --secondary-foreground: #eef0f5;
+  --muted: #1a2030;
+  --muted-foreground: #98a0af;
+  --accent: #20263a;
+  --accent-foreground: #f7f2e9;
+  --destructive: #ee7165;
+  --destructive-foreground: #fff9f7;
+  --border: rgba(255,255,255,.08);
+  --input: rgba(255,255,255,.1);
+  --ring: #f3a16d;
+}
+
+* { border-color: var(--border); }
+
+html { background: #0a0d18; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 83% -10%, rgba(245, 142, 91, .09), transparent 30rem),
+    radial-gradient(circle at 12% 35%, rgba(99, 108, 230, .07), transparent 26rem),
+    #0a0d18;
+  color: #f7f2e9;
+  font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+button, input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+
+::selection { background: rgba(243, 161, 109, .28); }
+
+@media (prefers-reduced-motion: no-preference) {
+  button { transition-timing-function: cubic-bezier(.23, 1, .32, 1); }
+}
+
+@media (max-width: 640px) {
+  body { background-size: auto, auto, auto; }
+}
